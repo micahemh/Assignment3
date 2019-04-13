@@ -1,0 +1,57 @@
+/*External Stylesheet for Assignment 2
+
+Brayden Kubota and Micah Higashi
+ITM 352
+04 April 2019
+Professor Kazman
+*/
+html {
+    background-color: #bb8;    
+}
+
+body {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-gap: .5em;
+    text-align: center;/*this can be deleted*/
+}
+
+header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    padding: .5em;
+    margin-bottom: 0.5em;
+}
+
+main {
+    grid-row: 2;
+    padding: .5em;
+    margin-bottom: 0.5em;
+}
+
+footer {
+    grid-row: 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: .5em;
+}
+
+input {
+    text-align: center;
+}
+
+.backgroundPlatform {
+    background-color: snow;
+}
+
+.productDisplayContainer {
+    display: grid;
+    grid-template-columns: 175px auto 100px;
+}
+
+#loginOptions {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
