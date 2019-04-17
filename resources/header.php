@@ -1,49 +1,36 @@
-<!--External Header page for Assignment 2
+<!--External Header page for Assignment 3
 
-Brayden Kubota and Micah Higashi
+Lauren Lee and Micah Higashi
 ITM 352
-04 April 2019
+18 April 2019
 Professor Kazman
 -->
 <header class="backgroundPlatform">
     <div style="text-align: left;">
-        <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
-            <input type="hidden" name="username" value="$_POST['username']">
-            <input type="hidden" name="loginSuccessful" value="$_POST['loginSuccessful']">
-            <input type="hidden" name="registrationSuccessful" value="$_POST['registrationSuccessful']">
-            <input type="hidden" name="guestSuccessful" value="$_POST['guestSuccessful']">
-            <input type="image" alt="Submit" src="resources/media/banner.png" height="100">
-        </form>
+        <a href="<?= $_SERVER['PHP_SELF'] ?>">      
+            <img src="resources/media/banner.png">
+        </a>
     </div>
     <div style="text-align: right;">
-        <?php  ?>
-        <form action="index.php" method="POST">
-            <input type="hidden" name="username" value="$_POST['username']">
-            <input type="hidden" name="loginSuccessful" value="$_POST['loginSuccessful']">
-            <input type="hidden" name="registrationSuccessful" value="$_POST['registrationSuccessful']">
-            <input type="hidden" name="guestSuccessful" value="$_POST['guestSuccessful']">
-            <input type="image" alt="Submit" src="resources/media/home.png" width="50" height="50">
-        </form>
-        <form action="login.php" method="POST">
-            <input type="hidden" name="username" value="$_POST['username']">
-            <input type="hidden" name="loginSuccessful" value="$_POST['loginSuccessful']">
-            <input type="hidden" name="registrationSuccessful" value="$_POST['registrationSuccessful']">
-            <input type="hidden" name="guestSuccessful" value="$_POST['guestSuccessful']">
-            <input type="image" alt="Submit" src="resources/media/login.png" width="75" height="50">
-        </form>
+        <a href="index.php" style="text-decoration: none;">
+            <img src="resources/media/home.png" alt="Home Page" width="50" height="50" style="margin-right: .5em;">
+        </a>
+        <a href="login.php" style="text-decoration: none;">
+            <img src="resources/media/login.png" alt="Login Page" width="75" height="50">
+        </a>
         <?php
-
-
-            if(array_key_exists('loginSuccessful', $_POST) || array_key_exists('successfulRegistration',$_POST) || array_key_exists('guestSuccessful',$_POST)) {
-                print "Welcome, ";
-                if(($_POST['username'] == "Sign in with a guest account")) {
-                    print "guest";
-                }
-                else {
-                    print ucfirst($_POST['username']);
-                }
-                print "!";
+            $user = "username";
+            if(isset($user)) {
+                print "<br><br>Welcome, $user!";
             }
         ?>
     </div>
+    <div style="grid-column: 1 / span 2">
+        <span>Air Fryers</span>
+        <span>Crock Pots</span>
+        <span>Pressure Cookers</span>
+    </div>
 </header>
+
+<!--Link to functions-->
+<?php require("resources/functions.php"); ?>

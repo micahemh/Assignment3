@@ -1,19 +1,18 @@
-/*External Stylesheet for Assignment 2
-
-Brayden Kubota and Micah Higashi
+/*
+Lauren Lee and Micah Higashi
 ITM 352
-04 April 2019
+18 April 2019
 Professor Kazman
+
+This page documents the overarching CSS styles used in our Assignment 3 web application.
 */
 html {
-    background-color: #bb8;    
+    background-color: #b7d9f7;    
 }
 
 body {
-    display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
-    grid-gap: .5em;
-    text-align: center;/*this can be deleted*/
+    max-width: 750px;
+    margin: auto;
 }
 
 header {
@@ -32,26 +31,13 @@ main {
 
 footer {
     grid-row: 3;
+    
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     padding: .5em;
-}
-
-input {
-    text-align: center;
+    
 }
 
 .backgroundPlatform {
     background-color: snow;
-}
-
-.productDisplayContainer {
-    display: grid;
-    grid-template-columns: 175px auto 100px;
-}
-
-#loginOptions {
-    text-align: center;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
 }
