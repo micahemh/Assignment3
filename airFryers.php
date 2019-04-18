@@ -7,13 +7,12 @@ Professor Kazman
 
 Assignment 3: Generates an eCommerce Web application
 
-This page is the general format of a website. This page will be filled with a
-general welcome, as well as links to our products pages.
+This page is the Air Fryers page for our website.
 -->
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Airfryers And Things | Home</title>
+        <title>Airfryers And Things | Air Fryers</title>
         
         <!--Link for tab icon-->
         <link rel="icon" href="resources/media/tabIcon.jpg">
@@ -26,9 +25,11 @@ general welcome, as well as links to our products pages.
             <!--Display the Header (via external php file)-->
             <?php require("resources/header.php"); ?>
             
-            <!--Display the main content-->
-            <main class="backgroundPlatform">
-                This is the main page and can be used as a template for now.
+            <!--Display the main content (i.e. Air Fryer products)-->
+            <main style="margin-bottom: -.75em;">
+                <?php
+                    displayProducts("airFryer");
+                ?>
             </main>
             
             <!--Display the Footer (via external htm file)-->

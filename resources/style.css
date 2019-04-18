@@ -10,6 +10,10 @@ html {
     background-color: #b7d9f7;    
 }
 
+input {
+    text-align: center;
+}
+
 body {
     max-width: 750px;
     margin: auto;
@@ -39,5 +43,77 @@ footer {
 }
 
 .backgroundPlatform {
-    background-color: snow;
+    background-color: white;
+    padding: 0.5em;
+}
+
+.product {
+    display: grid;
+    grid-template-columns: 175px auto 100px;
+    margin-left: -.5em;
+    margin-right: -.5em;
+    margin-top: -.25em;
+    margin-bottom: -.25em;
+}
+
+.navbar {
+    width: 100%;
+    background-color: #555;
+    overflow: auto;
+}
+
+.navbar a {
+    float: left;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.navbar a:hover {
+    background-color: #000;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+@media screen and (max-width: 500px) {
+    .navbar a {
+        float: none;
+        display: block;
+    }
+}
+
+.collapsible {
+    grid-column: 1 / span 3;
+    background: #eee;
+    padding: 10px;
+    grid-row: 2;
+    margin-bottom: -.5em;
+    
+    /*Copied from W3 Schools*/
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+.collapsibleContent {
+    grid-column: 1 / span 3;
+    margin-top: -.5em;
+    padding-left: 10px;
+    padding-right: 10px;
+    
+    /*Copied from W3 Schools*/
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #eee;
+}
+
+#loginOptions {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }

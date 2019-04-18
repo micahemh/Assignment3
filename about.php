@@ -13,13 +13,10 @@ general welcome, as well as links to our products pages.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Airfryers And Things | Home</title>
+        <title>Airfryers And Things | About Us</title>
         
         <!--Link for tab icon-->
         <link rel="icon" href="resources/media/tabIcon.jpg">
-
-        <!--Link to functions-->
-        <?php require("resources/functions.php"); ?>
     </head>
     <body>
         <div>
@@ -28,7 +25,7 @@ general welcome, as well as links to our products pages.
             
             <!--Display the main content-->
             <main class="backgroundPlatform">
-                This is the main page and can be used as a template for now.
+                This is the About Us page.
             </main>
             
             <!--Display the Footer (via external htm file)-->

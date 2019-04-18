@@ -87,26 +87,76 @@ This page documents all the functions used in our Assignment 3 web application.
 
         $arrayItem = explode(";", $contents);
 
-
         for ($i = 0; $i < $numItems; $i++) {
             $arrayItemData = explode(",", $arrayItem[$i]);
 
             for ($j = 0; $j < sizeOf($arrayItemData); $j++) {
-                if($arrayItemData[0] == 'airFryer') {
-                    $array[$i][$j] = $arrayItemData[$j];
-                }
-                else if($arrayItemData[0] == 'crockPot') {
-                    $array[$i][$j] = $arrayItemData[$j];
-                }
-                else {
-                    $array[$i][$j] = $arrayItemData[$j];
-                }
+                $array[$i][$j] = trim($arrayItemData[$j]);
             }
         }
 
         fclose($fp);
 
         return $array;
+    }
+    
+    /* convertToProductsArray
+        purpose: converts the basic array (populated from the database) into an associative array tailored to products
+        input(s): (array) $array => the raw data array
+        output: (array) $retArr => resulting array from data cleansing
+    */
+    function ConvertToProductsArray($array) {
+        //Initialize return array to null
+        $retArr = null;
+        
+        //loop through all of the items in the parameter array (excluding the first entry which is an example format)
+        for ($i = 1; $i < sizeOf($array); $i++) {
+            $retArr[$i]['type'] = $array[$i][0];
+            $retArr[$i]['name'] = $array[$i][1];
+            $retArr[$i]['image'] = 'resources/media/'.$array[$i][2].'.jpg';
+            $retArr[$i]['description'] = $array[$i][3];
+            $retArr[$i]['price'] = (int) $array[$i][4];
+        }
+        
+        return $retArr;
+    }
+    
+    /* displayProducts
+        purpose: displays the products according to whatever page this function is called on
+        input(s): (string) $type => the type of product: airFryer, slowCooker, or pressureCooker
+        output: n/a
+    */
+    function displayProducts($type) {
+        //Initialize the products array
+        $products = convertToProductsArray(populateArrayFromDatabase('resources/products.dat'));
+        
+        //Product Display        
+        for($i=1; $i<sizeOf($products); $i++) {
+            if($products[$i]['type'] == trim($type)) {
+                printf('<div class="backgroundPlatform product">
+                            <div style="grid-column: 1;">
+                                <img src="%s" alt="%s">
+                            </div>
+                            <div style="grid-column: 2; text-align: left; ">
+                                <h2>%s</h2>
+                                <h6>$%.2f</b></h6>
+                                %s
+                            </div>
+                            <div style="grid-column: 3; text-align: center;">
+                                <small><small><small>How many?</small></small></small>
+                                <input type="number" min="0" pattern="\d+" value="0" style="width: 6em;" name="productOrder[%d]">
+                            </div>
+                        </div>
+                        <br>'
+                    ,$products[$i]['image']//path to the image of the product
+                    ,$products[$i]['name']//Alternative text if image doesn't display
+                    ,$products[$i]['name']//Title of product
+                    ,$products[$i]['price']//Price of product
+                    ,$products[$i]['description']//Short description of the product
+                    ,0
+                );
+            }
+        }
     }
     
     /* show

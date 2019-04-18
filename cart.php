@@ -7,13 +7,13 @@ Professor Kazman
 
 Assignment 3: Generates an eCommerce Web application
 
-This page is the general format of a website. This page will be filled with a
-general welcome, as well as links to our products pages.
+This page is the shopping cart page. Customers can reference this when they want
+to know what they are tentatively purchasing from us.
 -->
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Airfryers And Things | Home</title>
+        <title>Airfryers And Things | About Us</title>
         
         <!--Link for tab icon-->
         <link rel="icon" href="resources/media/tabIcon.jpg">
@@ -28,7 +28,8 @@ general welcome, as well as links to our products pages.
             
             <!--Display the main content-->
             <main class="backgroundPlatform">
-                This is the main page and can be used as a template for now.
+                This is the the shopping cart page.
+                <?php show(convertToProductsArray(populateArrayFromDatabase('resources/products.dat')));?>
             </main>
             
             <!--Display the Footer (via external htm file)-->
