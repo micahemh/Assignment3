@@ -29,7 +29,6 @@ to know what they are tentatively purchasing from us.
             <!--Display the main content-->
             <main class="backgroundPlatform">
                 This is the the shopping cart page.
-                <?php show(convertToProductsArray(populateArrayFromDatabase('resources/products.dat')));?>
             </main>
             
             <!--Display the Footer (via external htm file)-->

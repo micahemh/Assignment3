@@ -10,6 +10,7 @@ Assignment 3: Generates an eCommerce Web application
 This page is the general format of a website. This page will be filled with a
 general welcome, as well as links to our products pages.
 -->
+<?php setcookie('username','',time()-123456789); ?>
 <html>
     <head>
         <meta charset="UTF-8">

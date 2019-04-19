@@ -84,16 +84,12 @@ to save their receipt as a PDF to their computer.
                                 <hr width="50%">
                                 <?php
                                 //Initialize products array
-                                $products = populateArrayFromDatabase('products.dat');
-
+                                $products = convertToProductsArray(populateArrayFromDatabase('products.dat'));
                                 //initialize subtotal value to zero
                                 $subtotal = 0;
 
                                 //Loop through all the indicies
-                                for ($i = 1; $i < countItemsInDatabase('products.dat'); $i++) {
-                                    //Cast monetary values in the products array to markedup values of floats
-                                    $products[$i][2] = (float) $products[$i][2];
-
+                                for ($i = 1; $i <= countItemsInDatabase('products.dat'); $i++) {
                                     //Cast numeric values in the POST  array (productOrder)s to integers
                                     $_POST["productOrder$i"] = (int) $_POST["productOrder$i"];
 

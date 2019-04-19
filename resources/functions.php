@@ -110,7 +110,7 @@ This page documents all the functions used in our Assignment 3 web application.
         $retArr = null;
         
         //loop through all of the items in the parameter array (excluding the first entry which is an example format)
-        for ($i = 1; $i < sizeOf($array); $i++) {
+        for ($i = 0; $i < sizeOf($array); $i++) {
             $retArr[$i]['type'] = $array[$i][0];
             $retArr[$i]['name'] = $array[$i][1];
             $retArr[$i]['image'] = 'resources/media/'.$array[$i][2].'.jpg';
@@ -143,7 +143,7 @@ This page documents all the functions used in our Assignment 3 web application.
                                 %s
                             </div>
                             <div style="grid-column: 3; text-align: center;">
-                                <small><small><small>How many?</small></small></small>
+                                <h6>How many?</h6>
                                 <input type="number" min="0" pattern="\d+" value="0" style="width: 6em;" name="productOrder[%d]">
                             </div>
                         </div>
@@ -158,13 +158,171 @@ This page documents all the functions used in our Assignment 3 web application.
             }
         }
     }
-    
+
+    /* redirectFromLogin
+      purpose: Redirects to another page* after a successful log-in (either the last of my pages that the user was on OR if they have no "history", to the index)
+      input(s): (string) $destination => the last page that the user was on (if empty string, there is no history and destination is automatically set to index.php)
+      output: n/a (but will actively redirect if valid user information is submitted)
+     */
+
+    function redirectFromLogin($destination) {
+        //Optimistically assume login is successful (initialize loginSuccessful to true)
+        $loginSuccessful = true;
+
+        //Verifies that provided username is valid for login
+        if (!validUsernameForLogin()) {
+            $loginSuccessful = false;
+        }
+
+        //Verifies that provided password is valid for login
+        if (!validPasswordForLogin()) {
+            $loginSuccessful = false;
+        }
+
+        //Checks to see if the login succeeded
+        if ($loginSuccessful) {
+            //Redirect to the previous location or the index
+            header('location:index.php');
+
+            //As a precaution, terminate the remainder of the processes on this page
+            die();
+        }
+    }
+
+    /* validUsernameForLogin
+      purpose: Validates the username after a login attempt
+      input(s): n/a
+      output: (boolean) $validated =>
+      (also actively assigns error messages for respective problems)
+      implemented: redirectToStoreFromLogin function
+     */
+
+    function validUsernameForLogin() {
+        //Initialize validated to true
+        $validated = true;
+
+        //Verify that provided username is not just an empty string
+        if ($_POST['username'] === "") {
+            //Add error message to errors array (empty string)
+            $GLOBALS['errors']['username']['empty'] = "No username was provided.";
+
+            //Reset validated to false
+            $validated = false;
+        }
+        //Only display further error(s) if a password was attempted (not an empty string)
+        else {
+            //Verify that provided username exists in the database
+            if (!usernameExists($_POST['username'])) {
+                //Add error message to errors array (already in use)
+                $GLOBALS['errors']['username']['nonexistant'] = "This username isn't currently in our database.";
+
+                //Reset validated to false
+                $validated = false;
+            }
+        }
+
+        //Submit finalized determination whether or not username is valid
+        return $validated;
+    }
+
+/* validPasswordForLogin
+  purpose: Validates the password after a login attempt
+  input(s): n/a
+  output: (boolean) $validated =>
+  (also actively assigns error messages for respective problems)
+  implemented: redirectToStoreFromLogin function
+ */
+
+function validPasswordForLogin() {
+    //Initialize validated to true
+    $validated = true;
+
+    //Determine the correct password
+    $correct = "";
+    $users = populateArrayFromDatabase('resources/users.dat');
+    for ($i = 0; $i < sizeOf($users); $i++) {
+        if (trim($users[$i][0]) == $_POST['username']) {
+            $correct = $users[$i][1];
+        }
+    }
+
+    //Verify that provided username is not just an empty string
+    if ($_POST['password'] === "") {
+        //Add error message to errors array (empty string)
+        $GLOBALS['errors']['password']['empty'] = "No password was provided.";
+
+        //Reset validated to false
+        $validated = false;
+    }
+    //Only display further error(s) if a password was attempted (not an empty string)
+    else {
+        //Verify that provided password corresponds to encrypted password on file
+        if (!password_verify($_POST['password'], $correct)) {
+            //Add error message to errors array
+            $GLOBALS['errors']['password']['incorrect'] = "The provided password is incorrect.";
+
+            //Reset validated to false
+            $validated = false;
+        }
+    }
+
+    //Submit finalized determination whether or not username is valid
+    return $validated;
+}
+
+/* usernameExists
+  purpose: Verifies that the provided username exists
+  input(s): n/a
+  output: (boolean) $exists => whether or not the username is in the users database
+  implemented: headers, validUsernameForRegistration and validUsernameForLogin functions
+ */
+
+function usernameExists($provided) {
+    //Initialize exists to false
+    $exists = false;
+
+    //Initialize a file pointer
+    $fp = fopen("resources/users.dat", "r");
+
+    //Convert file to string
+    $contents = stream_get_contents($fp);
+
+    //Check if there are any words in contents that match the provided username
+    if (preg_match("/\b$provided\b/i", $contents)) {
+        $exists = true;
+        if ($provided === "") {
+            $exists = false;
+        }
+    }
+
+    //Close the file pointer
+    fclose($fp);
+
+    //Return whether or not the value is currently in the database
+    return $exists;
+}
+
+    /* initializeUser
+      purpose: sets the cookie and
+      input(s): n/a
+      output: the var_dump() of an element in a viewable format (set to $_POST by default)
+     */
+    function intializeUser() {
+        echo "<pre>";
+        if($x==="") {
+            var_dump($_POST);
+        }
+        else {
+            var_dump($x);
+        }
+        echo "</pre>";
+    }
+
     /* show
       purpose: personal diagnostic tool so as to not have to type the annoying
                underscores as well as have it in a nice, more readable format
       input(s): n/a
       output: the var_dump() of an element in a viewable format (set to $_POST by default)
-      implemented: wherever one would use a var_dump() function command
      */
     function show($x="") {
         echo "<pre>";

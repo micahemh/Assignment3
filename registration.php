@@ -9,6 +9,7 @@ Assignment 3: Generates an eCommerce Web application
 
 This page is the registration form.
 -->
+<?php initializeUser(); ?>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -25,10 +26,11 @@ This page is the registration form.
             <!--Display the main content (i.e. registration form)-->
             <main class="backgroundPlatform">
                 <center>
-                    To create a new Airfryers And Things account, please enter the following information below:<br>
+                    To <?php if(!isset($_COOKIE['username'])) echo "create a new"; else echo "modify your"; ?> Airfryers And Things account, please enter the following information below:<br>
+                    <?php if(isset($_COOKIE['username'])) echo "Unfortunately at this time, you must enter your desired data in all fields to modify your account.<br>"; ?> 
                     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                         <br>Username<br>
-                        <input type='text' name="username" value="<?php echo $_POST['username']; ?>" placeholder="Create a username" style="margin-bottom: .25em;"><br>
+                        <input type='text' name="username" value="<?php if(isset($_POST['username'])) echo $_POST['username']; else echo ""; ?>" placeholder="Create a username" style="margin-bottom: .25em; width: 200px;"><br>
                         <?php
                         if (isset($_POST['registrationAttempted']) && isset($GLOBALS['errors']['username'])) {
                             foreach ($GLOBALS['errors']['username'] as $key => $val) {
@@ -37,8 +39,9 @@ This page is the registration form.
                         }
                         ?>
                         <br>Password<br>
-                        <input type='password' name="password_1" placeholder="Enter your password" style="margin-bottom: .25em;"><br>
-                        <input type='password' name="password_2" placeholder="Confirm your password" style="margin-bottom: .5em;"><br>
+                        <?php if(isset($_COOKIE['username'])) echo "<input type='password' name='password' placeholder='Enter your old password' style='margin-bottom: .25em; width: 200px;'><br>"; ?>
+                        <input type='password' name="password_1" placeholder="Enter your new password" style="margin-bottom: .25em; width: 200px;"><br>
+                        <input type='password' name="password_2" placeholder="Confirm your new password" style="margin-bottom: .5em; width: 200px;"><br>
                         <?php
                         if (isset($_POST['registrationAttempted']) && isset($GLOBALS['errors']['password'])) {
                             foreach ($GLOBALS['errors']['password'] as $key => $val) {
@@ -47,8 +50,8 @@ This page is the registration form.
                         }
                         ?>
                         <br>Email<br>
-                        <input type='text' name="email_1" value="<?php echo $_POST['email_1']; ?>" placeholder="Enter your email" style="margin-bottom: .25em;"><br>
-                        <input type='text' name="email_2" value="<?php echo $_POST['email_2']; ?>" placeholder="Confirm your email" style="margin-bottom: .5em;"><br>
+                        <input type='text' name="email_1" value="<?php if(isset($_POST['email_1'])) echo $_POST['email_1']; else echo ""; ?>" placeholder="Enter your email" style="margin-bottom: .25em; width: 200px;"><br>
+                        <input type='text' name="email_2" value="<?php if(isset($_POST['email_2'])) echo $_POST['email_2']; else echo ""; ?>" placeholder="Confirm your email" style="margin-bottom: .5em; width: 200px;"><br>
                         <?php
                         if (isset($_POST['registrationAttempted']) && isset($GLOBALS['errors']['email'])) {
                             foreach ($GLOBALS['errors']['email'] as $key => $val) {

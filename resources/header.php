@@ -24,19 +24,27 @@ Professor Kazman
     </div>
     <div style="text-align: right; justify-items: top;">
         <?php
-            if(isset($user)) {
-                $user = "username";
-                print "<br><br>Welcome, $user!";
+            if(isset($_COOKIE['username'])) {
+                print "<br><hr>Welcome, ".ucfirst($_COOKIE['username']).'!<br><hr>';
             }
         ?>
     </div>
     <div class="navbar" style="grid-column: 1 / span 2">
         <a class="active" href="index.php"><i class="fa fa-fw fa-home"></i>Home</a>
-        <a href="airFryers.php">Air Fryers</a>
-        <a href="slowCookers.php">Slow Cookers</a>
-        <a href="pressureCookers.php">Pressure Cookers</a>
-        <a href="cart.php"><i class="fa fa-fw fa-shopping-cart"></i> Your Cart</a>
-        <a href="login.php"><i class="fa fa-fw fa-lock"></i> Login</a>
-        <a href="about.php"><i class="fa fa-fw fa-question"></i> About Us</a>
+        <a href="airFryers.php">Air<small> </small>Fryers</a>
+        <a href="slowCookers.php">Slow<small> </small>Cookers</a>
+        <a href="pressureCookers.php">Pressure<small> </small>Cookers</a>
+        <a href="about.php"><i class="fa fa-fw fa-question"></i>About<small> </small>Us</a>
+        <?php
+            //If a user is logged in
+            if(isset($_COOKIE['username'])) {
+                echo '<a href="cart.php"><i class="fa fa-fw fa-shopping-cart"></i><small> </small>Cart</a>';
+                echo '<a href="account.php"><i class="fa fa-fw fa-lock"></i><small> </small>My<small> </small>Account</a>';
+            }
+            //If no user is logged in
+            else {
+                echo '<a href="account.php"><i class="fa fa-fw fa-unlock"></i><small> </small>Login</a>';
+            }
+        ?>
     </div>
 </header>
