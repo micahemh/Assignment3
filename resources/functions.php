@@ -189,6 +189,28 @@ This page documents all the functions used in our Assignment 3 web application.
         }
     }
 
+    /* validLogin
+      purpose: checks that both username and password were valid
+      input(s): n/a
+      output: (boolean) $validated =>
+     */
+
+    function validLogin() {
+        //Initialize validated to true
+        $validated = true;
+        
+        if(!validUsernameForLogin()) {
+            $validated = false;
+        }
+        
+        if(!validPasswordForLogin()) {
+            $validated = false;
+        }
+
+        //Submit finalized determination whether or not username is valid
+        return $validated;
+    }
+
     /* validUsernameForLogin
       purpose: Validates the username after a login attempt
       input(s): n/a
@@ -225,97 +247,106 @@ This page documents all the functions used in our Assignment 3 web application.
         return $validated;
     }
 
-/* validPasswordForLogin
-  purpose: Validates the password after a login attempt
-  input(s): n/a
-  output: (boolean) $validated =>
-  (also actively assigns error messages for respective problems)
-  implemented: redirectToStoreFromLogin function
- */
+    /* validPasswordForLogin
+      purpose: Validates the password after a login attempt
+      input(s): n/a
+      output: (boolean) $validated =>
+      (also actively assigns error messages for respective problems)
+      implemented: redirectToStoreFromLogin function
+     */
 
-function validPasswordForLogin() {
-    //Initialize validated to true
-    $validated = true;
+    function validPasswordForLogin() {
+        //Initialize validated to true
+        $validated = true;
 
-    //Determine the correct password
-    $correct = "";
-    $users = populateArrayFromDatabase('resources/users.dat');
-    for ($i = 0; $i < sizeOf($users); $i++) {
-        if (trim($users[$i][0]) == $_POST['username']) {
-            $correct = $users[$i][1];
+        //Determine the correct password
+        $correct = "";
+        $users = populateArrayFromDatabase('resources/users.dat');
+        for ($i = 0; $i < sizeOf($users); $i++) {
+            if (trim($users[$i][0]) == $_POST['username']) {
+                $correct = $users[$i][1];
+            }
         }
-    }
 
-    //Verify that provided username is not just an empty string
-    if ($_POST['password'] === "") {
-        //Add error message to errors array (empty string)
-        $GLOBALS['errors']['password']['empty'] = "No password was provided.";
-
-        //Reset validated to false
-        $validated = false;
-    }
-    //Only display further error(s) if a password was attempted (not an empty string)
-    else {
-        //Verify that provided password corresponds to encrypted password on file
-        if (!password_verify($_POST['password'], $correct)) {
-            //Add error message to errors array
-            $GLOBALS['errors']['password']['incorrect'] = "The provided password is incorrect.";
+        //Verify that provided username is not just an empty string
+        if ($_POST['password'] === "") {
+            //Add error message to errors array (empty string)
+            $GLOBALS['errors']['password']['empty'] = "No password was provided.";
 
             //Reset validated to false
             $validated = false;
         }
-    }
-
-    //Submit finalized determination whether or not username is valid
-    return $validated;
-}
-
-/* usernameExists
-  purpose: Verifies that the provided username exists
-  input(s): n/a
-  output: (boolean) $exists => whether or not the username is in the users database
-  implemented: headers, validUsernameForRegistration and validUsernameForLogin functions
- */
-
-function usernameExists($provided) {
-    //Initialize exists to false
-    $exists = false;
-
-    //Initialize a file pointer
-    $fp = fopen("resources/users.dat", "r");
-
-    //Convert file to string
-    $contents = stream_get_contents($fp);
-
-    //Check if there are any words in contents that match the provided username
-    if (preg_match("/\b$provided\b/i", $contents)) {
-        $exists = true;
-        if ($provided === "") {
-            $exists = false;
-        }
-    }
-
-    //Close the file pointer
-    fclose($fp);
-
-    //Return whether or not the value is currently in the database
-    return $exists;
-}
-
-    /* initializeUser
-      purpose: sets the cookie and
-      input(s): n/a
-      output: the var_dump() of an element in a viewable format (set to $_POST by default)
-     */
-    function intializeUser() {
-        echo "<pre>";
-        if($x==="") {
-            var_dump($_POST);
-        }
+        //Only display further error(s) if a password was attempted (not an empty string)
         else {
-            var_dump($x);
+            //Verify that provided password corresponds to encrypted password on file
+            if (!password_verify($_POST['password'], $correct)) {
+                //Add error message to errors array
+                $GLOBALS['errors']['password']['incorrect'] = "The provided password is incorrect.";
+
+                //Reset validated to false
+                $validated = false;
+            }
         }
-        echo "</pre>";
+
+        //Submit finalized determination whether or not username is valid
+        return $validated;
+    }
+
+    /* usernameExists
+      purpose: Verifies that the provided username exists
+      input(s): n/a
+      output: (boolean) $exists => whether or not the username is in the users database
+      implemented: headers, validUsernameForRegistration and validUsernameForLogin functions
+     */
+
+    function usernameExists($provided) {
+        //Initialize exists to false
+        $exists = false;
+
+        //Initialize a file pointer
+        $fp = fopen("resources/users.dat", "r");
+
+        //Convert file to string
+        $contents = stream_get_contents($fp);
+
+        //Check if there are any words in contents that match the provided username
+        if (preg_match("/\b$provided\b/i", $contents)) {
+            $exists = true;
+            if ($provided === "") {
+                $exists = false;
+            }
+        }
+
+        //Close the file pointer
+        fclose($fp);
+
+        //Return whether or not the value is currently in the database
+        return $exists;
+    }
+
+    /* setUserCookie
+      purpose: sets the username cookie
+      input(s): n/a
+      output: sets the username cookie
+     */
+    function setUserCookie() {
+        if(isset($_COOKIE['username'])) {
+            setcookie('username',$_COOKIE['username']);
+        }
+        else if(isset($_POST['username']) && (validLogin() || validLogin())) {
+            setcookie('username',$_POST['username']);
+        }
+    }
+
+    /* logout
+      purpose: logs user off and deletes the username cookie
+      input(s): n/a
+      output: deletes the username cookie
+     */
+    function logout() {
+        if(isset($_POST['logout'])) {
+            setcookie('username',$_POST['username'],time()-808);
+        }
     }
 
     /* show

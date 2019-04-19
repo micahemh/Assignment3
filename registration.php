@@ -9,7 +9,13 @@ Assignment 3: Generates an eCommerce Web application
 
 This page is the registration form.
 -->
-<?php initializeUser(); ?>
+<?php
+    //Initialize Functions
+    require('resources/functions.php');
+    
+    //Initialize Username Cookie
+    setUserCookie();
+?>
 <html>
     <head>
         <meta charset="UTF-8">

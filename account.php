@@ -10,6 +10,13 @@ Assignment 3: Generates an eCommerce Web application
 This page is the general format of a website. This page will be filled with a
 general welcome, as well as links to our products pages.
 -->
+<?php
+    //Initialize Functions
+    require('resources/functions.php');
+    
+    //Initialize Username Cookie
+    setUserCookie();
+?>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -17,9 +24,6 @@ general welcome, as well as links to our products pages.
         
         <!--Link for tab icon-->
         <link rel="icon" href="resources/media/tabIcon.jpg">
-
-        <!--Link to functions-->
-        <?php require("resources/functions.php"); ?>
 
         <!--Redirect-->
         <?php if(isset($_POST['username'])) redirectFromLogin('index.php'); ?>
@@ -75,7 +79,7 @@ general welcome, as well as links to our products pages.
                         <button type='submit' name='loginAttempted' value="">Log in</button>
                     </form>               
                 </div>
-
+                <?php if(!isset($_COOKIE['username'])) {?>
                 <!--Option 3: Login with guest account-->
                 <div>
                     Don't want to buy anything today?<br>
@@ -85,6 +89,17 @@ general welcome, as well as links to our products pages.
                         <input type="submit" name="SUBMIT" value="Sign in with a guest account!">
                     </form>
                 </div>
+                <?php } else {?>
+                <!--Option 1: Logout for now-->
+                <div>
+                    Done shopping for today?<br>
+                    Don't forget to log out!<br><br>
+                    <form action="index.php" method="POST">
+                        <input type="hidden" name="logout" value="true">
+                        <input type="submit" name="SUBMIT" value="Log out">
+                    </form>
+                </div>
+                <?php }?>
             </main>
             
             <!--Display the Footer (via external htm file)-->
