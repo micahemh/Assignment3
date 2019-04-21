@@ -2,7 +2,7 @@
 <!--
 Lauren Lee and Micah Higashi
 ITM 352
-18 April 2019
+19 April 2019
 Professor Kazman
 
 Assignment 3: Generates an eCommerce Web application
@@ -13,8 +13,17 @@ This page is the registration form.
     //Initialize Functions
     require('resources/functions.php');
     
+    if(isset($_COOKIE['username'])) {
+        session_save_path('resources/sessions/.');
+        session_id($_COOKIE['username']);
+        session_start();
+    }
+    
     //Initialize Username Cookie
     setUserCookie();
+    
+    //Redirect upon successful registration
+    redirectFromRegistration(isset($_CCOKIE['username']));
 ?>
 <html>
     <head>
@@ -32,8 +41,8 @@ This page is the registration form.
             <!--Display the main content (i.e. registration form)-->
             <main class="backgroundPlatform">
                 <center>
-                    To <?php if(!isset($_COOKIE['username'])) echo "create a new"; else echo "modify your"; ?> Airfryers And Things account, please enter the following information below:<br>
-                    <?php if(isset($_COOKIE['username'])) echo "Unfortunately at this time, you must enter your desired data in all fields to modify your account.<br>"; ?> 
+                    To <?php if(!isset($_COOKIE['username']) || (isset($_COOKIE['username']) && $_COOKIE['username'] == "guest")) echo "create a new"; else echo "modify your"; ?> Airfryers And Things account, please enter the following information below:<br>
+                    <?php if(!(!isset($_COOKIE['username']) || (isset($_COOKIE['username']) && $_COOKIE['username'] == "guest"))) echo "Unfortunately at this time, you must enter your desired data in all fields to modify your account.<br>"; ?> 
                     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                         <br>Username<br>
                         <input type='text' name="username" value="<?php if(isset($_POST['username'])) echo $_POST['username']; else echo ""; ?>" placeholder="Create a username" style="margin-bottom: .25em; width: 200px;"><br>
@@ -45,7 +54,7 @@ This page is the registration form.
                         }
                         ?>
                         <br>Password<br>
-                        <?php if(isset($_COOKIE['username'])) echo "<input type='password' name='password' placeholder='Enter your old password' style='margin-bottom: .25em; width: 200px;'><br>"; ?>
+                        <?php if(!(!isset($_COOKIE['username']) || (isset($_COOKIE['username']) && $_COOKIE['username'] == "guest"))) echo "<input type='password' name='password' placeholder='Enter your old password' style='margin-bottom: .25em; width: 200px;'><br>"; ?>
                         <input type='password' name="password_1" placeholder="Enter your new password" style="margin-bottom: .25em; width: 200px;"><br>
                         <input type='password' name="password_2" placeholder="Confirm your new password" style="margin-bottom: .5em; width: 200px;"><br>
                         <?php
@@ -66,7 +75,8 @@ This page is the registration form.
                         }
                         ?>
                         <br>
-                        <input type="submit" name="registrationAttempted" value="Create your new account!">
+                        <input type="hidden" name="modify" value="<?php echo $_POST['modify']; ?>">
+                        <input type="submit" name="registrationAttempted" value="Submit your account details!">
                     </form>
                 </center>
             </main>

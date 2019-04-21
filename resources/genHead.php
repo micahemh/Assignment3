@@ -2,7 +2,7 @@
 
 Lauren Lee and Micah Higashi
 ITM 352
-18 April 2019
+19 April 2019
 Professor Kazman
 
 These are the initializations in the head for the root-level pages

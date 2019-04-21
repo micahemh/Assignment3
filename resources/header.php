@@ -2,7 +2,7 @@
 
 Lauren Lee and Micah Higashi
 ITM 352
-18 April 2019
+19 April 2019
 Professor Kazman
 -->
 
@@ -24,8 +24,16 @@ Professor Kazman
     </div>
     <div style="text-align: right; justify-items: top;">
         <?php
+            date_default_timezone_set('HST');
+            print "Today is ".date("l, F jS, Y \a\\t h:i A");
             if(isset($_COOKIE['username'])) {
-                print "<br><hr>Welcome, ".ucfirst($_COOKIE['username']).'!<br><hr>';
+                print "<hr>Welcome, ".ucfirst($_COOKIE['username']).'!<br><hr>';
+                
+                if($_COOKIE['username'] !== 'guest') {
+                    if(isset($_SESSION['cart_quantities']) && array_sum($_SESSION['cart_quantities']) > 0) {
+                        print "You have ".array_sum($_SESSION['cart_quantities'])." item(s) in your cart";
+                    }
+                }
             }
         ?>
     </div>
@@ -38,7 +46,9 @@ Professor Kazman
         <?php
             //If a user is logged in
             if(isset($_COOKIE['username'])) {
-                echo '<a href="cart.php"><i class="fa fa-fw fa-shopping-cart"></i><small> </small>Cart</a>';
+                if($_COOKIE['username'] !== 'guest') {
+                    echo '<a href="cart.php"><i class="fa fa-fw fa-shopping-cart"></i><small> </small>Cart</a>';
+                }
                 echo '<a href="account.php"><i class="fa fa-fw fa-lock"></i><small> </small>My<small> </small>Account</a>';
             }
             //If no user is logged in

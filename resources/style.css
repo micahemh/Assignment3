@@ -99,19 +99,6 @@ footer {
     font-size: 15px;
 }
 
-.collapsibleContent {
-    grid-column: 1 / span 3;
-    margin-top: -.5em;
-    padding-left: 10px;
-    padding-right: 10px;
-    
-    /*Copied from W3 Schools*/
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    background-color: #eee;
-}
-
 #accountOptions {
     text-align: center;
     display: grid;
